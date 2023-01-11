@@ -11,8 +11,11 @@ const AnimeCard = ({ anime }) => {
 	//takes data from Main api call to return a card
 
 	const handleClick = () => {
-		pushFirebase();
-		setPushIds([...pushIds]);
+		if (pushIds) {
+			pushFirebase();
+			setPushIds([...pushIds]);
+		}
+		//saves the push id
 	};
 
 	const pushFirebase = () => {
