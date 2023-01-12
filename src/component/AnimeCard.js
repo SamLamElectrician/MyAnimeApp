@@ -1,65 +1,43 @@
 import React from 'react';
 import { useUserAuth } from '../context/UserAuthContext';
-import { getDatabase, push, ref, set } from 'firebase/database';
+import { getDatabase, onValue, ref, set } from 'firebase/database';
 import firebaseConfig from '../firebase';
 import { useState } from 'react';
 
 const AnimeCard = ({ anime }) => {
 	let { user } = useUserAuth();
-	const [pushIds, setPushIds] = useState([]);
+	const [firebaseData, setfirebaseData] = useState([]);
 	const [likeStatus, setLikeStatus] = useState(true);
 	//takes data from Main api call to return a card
 
 	const handleClick = () => {
-		if (pushIds) {
-			pushFirebase();
-			setPushIds([...pushIds]);
-		}
-		//saves the push id
+		if (anime.title) pushFirebase();
+		getFirebaseData();
+		console.log(firebaseData);
 	};
 
+	const getFirebaseData = () => {
+		const db = getDatabase(firebaseConfig);
+		const dbRef = ref(db, `user/${user.uid}/`);
+		onValue(dbRef, (snapshot) => {
+			const data = snapshot.val();
+			setfirebaseData(data);
+		});
+	};
 	const pushFirebase = () => {
 		const db = getDatabase(firebaseConfig);
-		const dbRef = ref(db, `user/${user.uid}`);
-		const newPost = push(dbRef);
-
-		const newItemRef = set(newPost, {
+		//saves anime title as node in firebase
+		const dbRef = ref(db, `user/${user.uid}/${anime.title}`);
+		const newItemRef = set(dbRef, {
 			link: anime.url,
 			japtitle: anime.title_japanese,
 			engTitle: anime.title,
 			img: anime.images.jpg.large_image_url,
 			plot: anime.synopsis,
 		});
-		const newItemKey = newItemRef.key;
-		console.log(pushIds);
-		pushIds.push(newItemKey);
+
 		setLikeStatus(false);
 	};
-
-	// const removeFirebase = () => {
-	// get(ref(db, `${user.uid}`)).then((data) => {
-	// 	remove(db, `${user.id}` + data);
-	// });
-	// ref(db, `user/${user.uid}`).remove({
-	// 	link: anime.url,
-	// 	japtitle: anime.title_japanese,
-	// 	engTitle: anime.title,
-	// 	img: anime.images.jpg.large_image_url,
-	// 	plot: anime.synopsis,
-	// });
-	// 	setLikeStatus(true);
-	// 	var nodeRef = database.ref('items').child(pushId);
-
-	// 	// Remove the node
-	// 	nodeRef
-	// 		.remove()
-	// 		.then(function () {
-	// 			console.log('Remove succeeded.');
-	// 		})
-	// 		.catch(function (error) {
-	// 			console.log('Remove failed: ' + error.message);
-	// 		});
-	// };
 
 	//takes data from Main api call to return a card
 	return (
