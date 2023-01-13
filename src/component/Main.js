@@ -13,6 +13,7 @@ const Main = () => {
 	const [random, setRandom] = useState([]);
 	//sets loading state if data isn't called yet
 	const [loading, setLoading] = useState(true);
+	const [firebaseAnime, setfirebaseAnime] = useState([]);
 
 	//async/await function to display to top 5 animes by popularity
 	const GetTopAnime = async () => {
@@ -96,6 +97,8 @@ const Main = () => {
 					<div class='loading'>loading.. </div>
 				) : (
 					<Homepage
+						firebaseAnime={firebaseAnime}
+						setfirebaseAnime={setfirebaseAnime}
 						HandleSearch={HandleSearch}
 						search={search}
 						setSearch={setSearch}

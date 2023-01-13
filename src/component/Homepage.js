@@ -8,6 +8,8 @@ export default function homepage({
 	animeList,
 	random,
 	setRandom,
+	firebaseAnime,
+	SetFirebaseAnime,
 }) {
 	return (
 		<>
@@ -28,7 +30,12 @@ export default function homepage({
 						<h3>Search Results</h3>
 						<div className='animeList'>
 							{animeList.map((anime) => (
-								<AnimeCard anime={anime} key={anime.mal_id} />
+								<AnimeCard
+									anime={anime}
+									key={anime.mal_id}
+									firebaseAnime={firebaseAnime}
+									SetFirebaseAnime={SetFirebaseAnime}
+								/>
 							))}
 						</div>
 					</div>
@@ -37,7 +44,12 @@ export default function homepage({
 						<h3>Animes You Should Check Out</h3>
 						<div className='animeList'>
 							{random.map((anime) => (
-								<AnimeCard anime={anime} key={anime.mal_id} />
+								<AnimeCard
+									anime={anime}
+									key={anime.mal_id}
+									firebaseAnime={firebaseAnime}
+									SetFirebaseAnime={SetFirebaseAnime}
+								/>
 							))}
 						</div>
 					</div>
