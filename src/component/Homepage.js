@@ -7,7 +7,7 @@ export default function homepage({
 	setSearch,
 	animeList,
 	random,
-	setRandom,
+
 	firebaseAnime,
 	SetFirebaseAnime,
 }) {

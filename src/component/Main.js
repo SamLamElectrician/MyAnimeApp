@@ -104,7 +104,6 @@ const Main = () => {
 						setSearch={setSearch}
 						animeList={animeList}
 						random={random}
-						setRandom={setRandom}
 					></Homepage>
 				)}
 			</div>
