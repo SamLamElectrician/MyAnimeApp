@@ -34,7 +34,7 @@ export function UserAuthContextProvider({ children }) {
 	// onAuthStateChanged returns the current user logged in
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-			console.log('Auth', currentuser);
+			// console.log('Auth', currentuser);
 			setUser(currentuser);
 		});
 		// remove db auth state change listener when component dismounts
