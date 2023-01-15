@@ -7,8 +7,8 @@ export default function homepage({
 	setSearch,
 	animeList,
 	random,
-	firebaseAnime,
-	SetFirebaseAnime,
+	savedAnime,
+	setSavedAnime,
 }) {
 	return (
 		<>
@@ -32,8 +32,8 @@ export default function homepage({
 								<AnimeCard
 									anime={anime}
 									key={anime.mal_id}
-									firebaseAnime={firebaseAnime}
-									SetFirebaseAnime={SetFirebaseAnime}
+									savedAnime={savedAnime}
+									setSavedAnime={setSavedAnime}
 								/>
 							))}
 						</div>
@@ -46,8 +46,8 @@ export default function homepage({
 								<AnimeCard
 									anime={anime}
 									key={anime.mal_id}
-									firebaseAnime={firebaseAnime}
-									SetFirebaseAnime={SetFirebaseAnime}
+									savedAnime={savedAnime}
+									setSavedAnime={setSavedAnime}
 								/>
 							))}
 						</div>

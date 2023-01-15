@@ -4,16 +4,21 @@ import { getDatabase, onValue, ref, remove, set } from 'firebase/database';
 import firebaseConfig from '../firebase';
 import { useState } from 'react';
 
-const AnimeCard = ({ anime }) => {
+const AnimeCard = ({ anime, setSavedAnime, savedAnime }) => {
 	let { user } = useUserAuth();
 
 	const [likeStatus, setLikeStatus] = useState(true);
 	//takes data from Main api call to return a card
 
 	const handleClick = () => {
-		getFirebaseData();
+		if (anime.title in savedAnime) {
+			removeFirebase();
+		} else {
+			pushFirebase();
+			getFirebaseData();
+		}
 
-		pushFirebase();
+		console.log('saved:', savedAnime);
 	};
 
 	const getFirebaseData = () => {
@@ -21,7 +26,8 @@ const AnimeCard = ({ anime }) => {
 		const dbRef = ref(db, `user/${user.uid}/`);
 		onValue(dbRef, (snapshot) => {
 			const data = snapshot.val();
-			console.log('snapshot:', data);
+			// console.log('snapshot:', data);
+			setSavedAnime(...savedAnime, data);
 		});
 	};
 	const pushFirebase = () => {
