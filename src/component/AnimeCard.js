@@ -11,16 +11,20 @@ const AnimeCard = ({ anime, setSavedAnime, savedAnime }) => {
 	//takes data from Main api call to return a card
 
 	const handleClick = () => {
+		//checks if the title is in the anime
 		if (anime.title in savedAnime) {
+			//if it is in, remove it
 			removeFirebase();
 		} else {
+			//otherwise push it
 			pushFirebase();
 			getFirebaseData();
 		}
 
 		console.log('saved:', savedAnime);
 	};
-
+	//gets data from reference and saves it
+	// issues here
 	const getFirebaseData = () => {
 		const db = getDatabase(firebaseConfig);
 		const dbRef = ref(db, `user/${user.uid}/`);
@@ -30,6 +34,7 @@ const AnimeCard = ({ anime, setSavedAnime, savedAnime }) => {
 			setSavedAnime(...savedAnime, data);
 		});
 	};
+	//pushes data as anime title with anime info as sub node
 	const pushFirebase = () => {
 		const db = getDatabase(firebaseConfig);
 		//saves anime title as node in firebase
