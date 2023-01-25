@@ -36,7 +36,7 @@ function App() {
 						}
 					></Route>
 					{/* bypass if you arent logged in */}
-					<Route path='/home2' element={<Main />}></Route>
+					<Route path='/home2' element={<Main />}></Route>+
 					<Route path='/about2' element={<About />}></Route>
 				</Routes>
 			</UserAuthContextProvider>

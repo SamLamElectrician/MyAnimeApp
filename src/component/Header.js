@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/images/Logo.png';
+import { useUserAuth } from '../context/UserAuthContext';
 
 const Header = () => {
+	const { user } = useUserAuth();
 	return (
 		<nav className='headerNav'>
 			<div className='leftHeader'>
@@ -16,7 +18,7 @@ const Header = () => {
 					<Link to='/about'>About</Link>
 				</li>
 				<li>
-					<Link to='/'>Login</Link>
+					{user ? <Link to='/'>Log out</Link> : <Link to='/'>Login</Link>}
 				</li>
 			</ul>
 		</nav>

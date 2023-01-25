@@ -70,11 +70,13 @@ const AnimeCard = ({ anime, setSavedAnime, savedAnime }) => {
 					<p>{anime.synopsis}</p>
 				</div>
 			</a>
-			{likeStatus ? (
-				<button onClick={() => handleClick()}>Add to list</button>
-			) : (
-				<button onClick={() => handleClick()}>Remove from List</button>
-			)}
+			{user ? (
+				likeStatus ? (
+					<button onClick={() => handleClick()}>Add to list</button>
+				) : (
+					<button onClick={() => handleClick()}>Remove from List</button>
+				)
+			) : null}
 			{/* <Button anime={anime}> Add to List</Button> */}
 			{user ? user.email : 'user it not here'}
 		</article>
