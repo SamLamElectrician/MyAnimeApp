@@ -5,6 +5,7 @@ import Main from './component/Main';
 import About from './component/About';
 import Login from './component/Login';
 import Signup from './component/Signup';
+import History from './component/History';
 import { UserAuthContextProvider } from './context/UserAuthContext';
 import ProtectedRoute from './component/ProtectedRoute';
 
@@ -32,6 +33,15 @@ function App() {
 						element={
 							<ProtectedRoute>
 								<Main />
+							</ProtectedRoute>
+						}
+					></Route>
+					<Route
+						exact
+						path='/history'
+						element={
+							<ProtectedRoute>
+								<History />
 							</ProtectedRoute>
 						}
 					></Route>

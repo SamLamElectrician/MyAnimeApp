@@ -17,6 +17,7 @@ const Header = () => {
 				<li>
 					<Link to='/about'>About</Link>
 				</li>
+				<li>{user ? <Link>Your List</Link> : null}</li>
 				<li>
 					{user ? (
 						<Link to='/' onClick={logOut}>
