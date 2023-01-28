@@ -5,7 +5,7 @@ import firebaseConfig from '../firebase';
 import { useState } from 'react';
 
 const AnimeCard = ({ anime, setSavedAnime, savedAnime }) => {
-	let { user } = useUserAuth();
+	let { user, savedAnime, setSavedAnime } = useUserAuth();
 
 	const [likeStatus, setLikeStatus] = useState(true);
 	//takes data from Main api call to return a card

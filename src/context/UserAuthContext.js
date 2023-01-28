@@ -10,6 +10,7 @@ import {
 import { auth } from '../firebase';
 // create a new context to track whether user is authenticated throughout the app
 const userAuthContext = createContext();
+const [savedAnime, setSavedAnime] = useState([]);
 // this function provides the rest of the app with all the necessary functions for user auth management (e.g. login, logout etc.)
 export function UserAuthContextProvider({ children }) {
 	const [user, setUser] = useState({});
