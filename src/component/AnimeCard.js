@@ -20,8 +20,6 @@ const AnimeCard = ({ anime, setSavedAnime, savedAnime }) => {
 			pushFirebase();
 			getFirebaseData();
 		}
-
-		console.log('saved:', savedAnime);
 	};
 	//gets data from reference and saves it
 	// issues here
