@@ -25,12 +25,18 @@ export default function History() {
 	return (
 		<>
 			<Header></Header>
-			<div className='animeList'>
-				{savedAnime
-					? Object.keys(savedAnime).map((keyName, i) => (
-							<AnimeCard likedAnime={savedAnime[keyName]} />
-					  ))
-					: null}
+			<div className='content'>
+				<main>
+					<div className='animeList history'>
+						{savedAnime ? (
+							Object.keys(savedAnime).map((keyName, i) => (
+								<AnimeCard likedAnime={savedAnime[keyName]} />
+							))
+						) : (
+							<>There is nothing here!</>
+						)}
+					</div>
+				</main>
 			</div>
 		</>
 	);

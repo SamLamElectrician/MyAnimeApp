@@ -3,22 +3,36 @@ import { useUserAuth } from '../context/UserAuthContext';
 import { getDatabase, onValue, ref, remove, set } from 'firebase/database';
 import firebaseConfig from '../firebase';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 const AnimeCard = ({ anime, likedAnime }) => {
 	let { user, setSavedAnime, savedAnime } = useUserAuth();
-	console.log(likedAnime);
 	const [likeStatus, setLikeStatus] = useState(true);
-	//takes data from Main api call to return a card
+
+	useEffect(() => {
+		if (likedAnime) {
+			setLikeStatus(false);
+		}
+	}, []);
 
 	const handleClick = () => {
 		//checks if the title is in the anime
-		if (anime.title in savedAnime) {
+		// || likedAnime.engTitle in savedAnime
+		if (anime && anime.title in savedAnime) {
 			//if it is in, remove it
-			removeFirebase();
+			removeFirebase(anime.title);
 		} else {
 			//otherwise push it
 			pushFirebase();
 			getFirebaseData();
+			setLikeStatus(false);
+		}
+		if (likedAnime && likedAnime.engTitle in savedAnime) {
+			removeFirebase(likedAnime.engTitle);
+		} else {
+			pushFirebase();
+			getFirebaseData();
+			setLikeStatus(false);
 		}
 	};
 	//gets data from reference and saves it
@@ -36,19 +50,29 @@ const AnimeCard = ({ anime, likedAnime }) => {
 	const pushFirebase = () => {
 		const db = getDatabase(firebaseConfig);
 		//saves anime title as node in firebase
-		const dbRef = ref(db, `user/${user.uid}/${anime.title}`);
-		const newItemRef = set(dbRef, {
-			link: anime.url,
-			japtitle: anime.title_japanese,
-			engTitle: anime.title,
-			img: anime.images.jpg.large_image_url,
-			plot: anime.synopsis,
-		});
-
-		setLikeStatus(false);
+		if (anime) {
+			const dbRef = ref(db, `user/${user.uid}/${anime.title}`);
+			const newItemRef = set(dbRef, {
+				link: anime.url,
+				japtitle: anime.title_japanese,
+				engTitle: anime.title,
+				img: anime.images.jpg.large_image_url,
+				plot: anime.synopsis,
+			});
+		}
+		if (likedAnime) {
+			const dbRef = ref(db, `user/${user.uid}/${likedAnime.engTitle}`);
+			const newItemRef = set(dbRef, {
+				link: anime.url,
+				japtitle: anime.title_japanese,
+				engTitle: anime.title,
+				img: anime.images.jpg.large_image_url,
+				plot: anime.synopsis,
+			});
+		}
 	};
 
-	const removeFirebase = () => {
+	const removeFirebase = (animeName) => {
 		const db = getDatabase(firebaseConfig);
 		const dbRef = ref(db, `user/${user.uid}/${anime.title}`);
 		remove(dbRef);
@@ -56,20 +80,25 @@ const AnimeCard = ({ anime, likedAnime }) => {
 
 	//takes data from Main api call to return a card
 	return (
+		// <div>{anime ? anime.url : likedAnime.plot}</div>
 		<article className='animeCard'>
-			<a href={anime.url || likedAnime.link} target='_blank' rel='noreferrer'>
+			<a
+				href={anime ? anime.url : likedAnime.link}
+				target='_blank'
+				rel='noreferrer'
+			>
 				<figure>
 					<img
-						src={anime.images.jpg.large_image_url || likedAnime.images}
+						src={anime ? anime.images.jpg.large_image_url : likedAnime.img}
 						alt='anime'
 					/>
 				</figure>
 				<div className='info'>
 					<h3>
-						{anime.title || likedAnime.engTitle} ||<br></br>{' '}
-						{anime.title_japanese || likedAnime.japtitle}
+						{anime ? anime.title : likedAnime.engTitle} ||<br></br>{' '}
+						{anime ? anime.title_japanese : likedAnime.japtitle}
 					</h3>
-					<p>{anime.synopsis || likedAnime.plot}</p>
+					<p>{anime ? anime.synopsis : likedAnime.plot}</p>
 				</div>
 			</a>
 			{user ? (
