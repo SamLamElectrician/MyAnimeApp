@@ -4,9 +4,9 @@ import { getDatabase, onValue, ref, remove, set } from 'firebase/database';
 import firebaseConfig from '../firebase';
 import { useState } from 'react';
 
-const AnimeCard = ({ anime, setSavedAnime, savedAnime }) => {
-	let { user, savedAnime, setSavedAnime } = useUserAuth();
-
+const AnimeCard = ({ anime, likedAnime }) => {
+	let { user, setSavedAnime, savedAnime } = useUserAuth();
+	console.log(likedAnime);
 	const [likeStatus, setLikeStatus] = useState(true);
 	//takes data from Main api call to return a card
 
@@ -29,7 +29,7 @@ const AnimeCard = ({ anime, setSavedAnime, savedAnime }) => {
 		onValue(dbRef, (snapshot) => {
 			const data = snapshot.val();
 			// console.log('snapshot:', data);
-			setSavedAnime(...savedAnime, data);
+			setSavedAnime(data);
 		});
 	};
 	//pushes data as anime title with anime info as sub node
@@ -57,15 +57,19 @@ const AnimeCard = ({ anime, setSavedAnime, savedAnime }) => {
 	//takes data from Main api call to return a card
 	return (
 		<article className='animeCard'>
-			<a href={anime.url} target='_blank' rel='noreferrer'>
+			<a href={anime.url || likedAnime.link} target='_blank' rel='noreferrer'>
 				<figure>
-					<img src={anime.images.jpg.large_image_url} alt='anime' />
+					<img
+						src={anime.images.jpg.large_image_url || likedAnime.images}
+						alt='anime'
+					/>
 				</figure>
 				<div className='info'>
 					<h3>
-						{anime.title} ||<br></br> {anime.title_japanese}
+						{anime.title || likedAnime.engTitle} ||<br></br>{' '}
+						{anime.title_japanese || likedAnime.japtitle}
 					</h3>
-					<p>{anime.synopsis}</p>
+					<p>{anime.synopsis || likedAnime.plot}</p>
 				</div>
 			</a>
 			{user ? (

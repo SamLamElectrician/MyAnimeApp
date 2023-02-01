@@ -96,8 +96,6 @@ const Main = () => {
 					<div class='loading'>loading.. </div>
 				) : (
 					<Homepage
-						savedAnime={savedAnime}
-						setSavedAnime={setSavedAnime}
 						HandleSearch={HandleSearch}
 						search={search}
 						setSearch={setSearch}

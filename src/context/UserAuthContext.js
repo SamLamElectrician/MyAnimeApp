@@ -10,10 +10,10 @@ import {
 import { auth } from '../firebase';
 // create a new context to track whether user is authenticated throughout the app
 const userAuthContext = createContext();
-const [savedAnime, setSavedAnime] = useState([]);
 // this function provides the rest of the app with all the necessary functions for user auth management (e.g. login, logout etc.)
 export function UserAuthContextProvider({ children }) {
 	const [user, setUser] = useState({});
+	const [savedAnime, setSavedAnime] = useState([]);
 	// This allows user to log in with the email pw combo they created
 	function logIn(email, password) {
 		return signInWithEmailAndPassword(auth, email, password);
@@ -49,7 +49,15 @@ export function UserAuthContextProvider({ children }) {
 		// this provider allows us to use all the auth functions and access user value anywhere across the app
 		// everything in app.js is wrapped inside <UserAuthContextProvider></userAuthContext.Provider> so that all the children components can access the auth properties
 		<userAuthContext.Provider
-			value={{ user, logIn, signUp, logOut, googleSignIn }}
+			value={{
+				user,
+				logIn,
+				signUp,
+				logOut,
+				googleSignIn,
+				setSavedAnime,
+				savedAnime,
+			}}
 		>
 			{children}
 		</userAuthContext.Provider>
