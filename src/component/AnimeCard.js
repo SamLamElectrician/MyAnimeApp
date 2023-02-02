@@ -8,16 +8,14 @@ import { useEffect } from 'react';
 const AnimeCard = ({ anime, likedAnime }) => {
 	let { user, setSavedAnime, savedAnime } = useUserAuth();
 	const [likeStatus, setLikeStatus] = useState(true);
-
 	useEffect(() => {
 		if (likedAnime) {
 			setLikeStatus(false);
 		}
-	}, []);
-
-	const handleClick = () => {
+	});
+	const handleClick = (e) => {
 		//checks if the title is in the anime
-		// || likedAnime.engTitle in savedAnime
+
 		if (anime && anime.title in savedAnime) {
 			//if it is in, remove it
 			removeFirebase();
@@ -38,6 +36,7 @@ const AnimeCard = ({ anime, likedAnime }) => {
 			getFirebaseData();
 			setLikeStatus(false);
 		}
+		console.log('done');
 	};
 	//gets data from reference and saves it
 	// issues here
@@ -64,7 +63,7 @@ const AnimeCard = ({ anime, likedAnime }) => {
 			img: anime.images.jpg.large_image_url,
 			plot: anime.synopsis,
 		});
-		console.log('added');
+		console.log('added to fb');
 	};
 
 	const removeFirebase = (animeName) => {
@@ -72,7 +71,11 @@ const AnimeCard = ({ anime, likedAnime }) => {
 		const dbRef = ref(db, `user/${user.uid}/${anime.title}`);
 		remove(dbRef);
 		setLikeStatus(true);
-		console.log('deleted');
+		let newList = Object.values(savedAnime).filter((anime) => {
+			return anime.engTitle !== animeName;
+		});
+		setSavedAnime(newList);
+		console.log('deleted from fb');
 	};
 
 	//takes data from Main api call to return a card
@@ -100,9 +103,9 @@ const AnimeCard = ({ anime, likedAnime }) => {
 			</a>
 			{user ? (
 				likeStatus ? (
-					<button onClick={() => handleClick()}>Add to list</button>
+					<button onClick={(e) => handleClick(e)}>Add to list</button>
 				) : (
-					<button onClick={() => handleClick()}>Remove from List</button>
+					<button onClick={(e) => handleClick(e)}>Remove from List</button>
 				)
 			) : null}
 			{/* <Button anime={anime}> Add to List</Button> */}
