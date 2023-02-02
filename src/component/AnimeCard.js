@@ -20,16 +20,20 @@ const AnimeCard = ({ anime, likedAnime }) => {
 		// || likedAnime.engTitle in savedAnime
 		if (anime && anime.title in savedAnime) {
 			//if it is in, remove it
-			removeFirebase(anime.title);
+			removeFirebase();
+			console.log('anime remove');
 		} else {
 			//otherwise push it
+			console.log('anime added');
 			pushFirebase();
 			getFirebaseData();
 			setLikeStatus(false);
 		}
 		if (likedAnime && likedAnime.engTitle in savedAnime) {
-			removeFirebase(likedAnime.engTitle);
+			console.log('liked removed');
+			removeFirebase();
 		} else {
+			console.log('liked added');
 			pushFirebase();
 			getFirebaseData();
 			setLikeStatus(false);
@@ -45,37 +49,30 @@ const AnimeCard = ({ anime, likedAnime }) => {
 			// console.log('snapshot:', data);
 			setSavedAnime(data);
 		});
+		console.log('data');
 	};
 	//pushes data as anime title with anime info as sub node
 	const pushFirebase = () => {
 		const db = getDatabase(firebaseConfig);
 		//saves anime title as node in firebase
-		if (anime) {
-			const dbRef = ref(db, `user/${user.uid}/${anime.title}`);
-			const newItemRef = set(dbRef, {
-				link: anime.url,
-				japtitle: anime.title_japanese,
-				engTitle: anime.title,
-				img: anime.images.jpg.large_image_url,
-				plot: anime.synopsis,
-			});
-		}
-		if (likedAnime) {
-			const dbRef = ref(db, `user/${user.uid}/${likedAnime.engTitle}`);
-			const newItemRef = set(dbRef, {
-				link: anime.url,
-				japtitle: anime.title_japanese,
-				engTitle: anime.title,
-				img: anime.images.jpg.large_image_url,
-				plot: anime.synopsis,
-			});
-		}
+
+		const dbRef = ref(db, `user/${user.uid}/${anime.title}`);
+		const newItemRef = set(dbRef, {
+			link: anime.url,
+			japtitle: anime.title_japanese,
+			engTitle: anime.title,
+			img: anime.images.jpg.large_image_url,
+			plot: anime.synopsis,
+		});
+		console.log('added');
 	};
 
 	const removeFirebase = (animeName) => {
 		const db = getDatabase(firebaseConfig);
 		const dbRef = ref(db, `user/${user.uid}/${anime.title}`);
 		remove(dbRef);
+		setLikeStatus(true);
+		console.log('deleted');
 	};
 
 	//takes data from Main api call to return a card
