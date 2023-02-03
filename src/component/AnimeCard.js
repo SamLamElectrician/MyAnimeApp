@@ -8,35 +8,45 @@ import { useEffect } from 'react';
 const AnimeCard = ({ anime, likedAnime }) => {
 	let { user, setSavedAnime, savedAnime } = useUserAuth();
 	const [likeStatus, setLikeStatus] = useState(true);
+
 	useEffect(() => {
 		if (likedAnime) {
 			setLikeStatus(false);
 		}
-	});
+	}, [likedAnime]);
+
+	console.log();
 	const handleClick = (e) => {
 		//checks if the title is in the anime
 
-		if (anime && anime.title in savedAnime) {
-			//if it is in, remove it
-			removeFirebase();
-			console.log('anime remove');
-		} else {
-			//otherwise push it
-			console.log('anime added');
-			pushFirebase();
-			getFirebaseData();
-			setLikeStatus(false);
+		if (anime) {
+			console.log('anime noticed');
+			if (savedAnime === null) {
+				console.log('null added');
+				pushFirebase();
+				getFirebaseData();
+				setLikeStatus(false);
+			}
+			if (anime.title in savedAnime) {
+				//if it is in, remove it
+				removeFirebase(anime.title);
+				console.log('animeList remove');
+			} else {
+				//otherwise push it
+				console.log('animeList added');
+				pushFirebase();
+				getFirebaseData();
+				setLikeStatus(false);
+			}
 		}
-		if (likedAnime && likedAnime.engTitle in savedAnime) {
-			console.log('liked removed');
-			removeFirebase();
-		} else {
-			console.log('liked added');
-			pushFirebase();
-			getFirebaseData();
-			setLikeStatus(false);
+
+		if (likedAnime) {
+			console.log('likedAnime');
+			removeFirebase(likedAnime.engTitle);
+
+			console.log('likedList removed');
 		}
-		console.log('done');
+		console.log('-------------------');
 	};
 	//gets data from reference and saves it
 	// issues here
@@ -68,7 +78,7 @@ const AnimeCard = ({ anime, likedAnime }) => {
 
 	const removeFirebase = (animeName) => {
 		const db = getDatabase(firebaseConfig);
-		const dbRef = ref(db, `user/${user.uid}/${anime.title}`);
+		const dbRef = ref(db, `user/${user.uid}/${animeName}`);
 		remove(dbRef);
 		setLikeStatus(true);
 		let newList = Object.values(savedAnime).filter((anime) => {
@@ -113,5 +123,4 @@ const AnimeCard = ({ anime, likedAnime }) => {
 		</article>
 	);
 };
-
 export default AnimeCard;
