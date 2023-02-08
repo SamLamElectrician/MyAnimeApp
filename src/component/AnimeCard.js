@@ -15,14 +15,11 @@ const AnimeCard = ({ anime, likedAnime }) => {
 		}
 	}, [likedAnime]);
 
-	console.log();
 	const handleClick = (e) => {
 		//checks if the title is in the anime
 
 		if (anime) {
-			console.log('anime noticed');
 			if (savedAnime === null) {
-				console.log('null added');
 				pushFirebase();
 				getFirebaseData();
 				setLikeStatus(false);
@@ -30,10 +27,9 @@ const AnimeCard = ({ anime, likedAnime }) => {
 			if (anime.title in savedAnime) {
 				//if it is in, remove it
 				removeFirebase(anime.title);
-				console.log('animeList remove');
 			} else {
 				//otherwise push it
-				console.log('animeList added');
+
 				pushFirebase();
 				getFirebaseData();
 				setLikeStatus(false);
@@ -41,12 +37,8 @@ const AnimeCard = ({ anime, likedAnime }) => {
 		}
 
 		if (likedAnime) {
-			console.log('likedAnime');
 			removeFirebase(likedAnime.engTitle);
-
-			console.log('likedList removed');
 		}
-		console.log('-------------------');
 	};
 	//gets data from reference and saves it
 	// issues here
@@ -55,10 +47,9 @@ const AnimeCard = ({ anime, likedAnime }) => {
 		const dbRef = ref(db, `user/${user.uid}/`);
 		onValue(dbRef, (snapshot) => {
 			const data = snapshot.val();
-			// console.log('snapshot:', data);
+
 			setSavedAnime(data);
 		});
-		console.log('data');
 	};
 	//pushes data as anime title with anime info as sub node
 	const pushFirebase = () => {
@@ -73,7 +64,6 @@ const AnimeCard = ({ anime, likedAnime }) => {
 			img: anime.images.jpg.large_image_url,
 			plot: anime.synopsis,
 		});
-		console.log('added to fb');
 	};
 
 	const removeFirebase = (animeName) => {
@@ -85,7 +75,6 @@ const AnimeCard = ({ anime, likedAnime }) => {
 			return anime.engTitle !== animeName;
 		});
 		setSavedAnime(newList);
-		console.log('deleted from fb');
 	};
 
 	//takes data from Main api call to return a card
