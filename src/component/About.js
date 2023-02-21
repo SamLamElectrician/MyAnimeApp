@@ -16,7 +16,7 @@ const About = () => {
 						on the functionality of including firebase to store your list and a
 						google sign in option.
 					</p>
-					<Link link to='/Home'>
+					<Link link to='/Home2'>
 						<button>Click to Start</button>
 					</Link>
 				</div>

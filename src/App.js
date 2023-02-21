@@ -14,7 +14,7 @@ function App() {
 		<>
 			<UserAuthContextProvider>
 				<Routes>
-					<Route exact path='/' element={<Login />} />
+					<Route exact path='/login' element={<Login />} />
 					<Route path='/signup' element={<Signup />} />
 					{/* protects this about from users who arent logged in */}
 					<Route
@@ -47,7 +47,7 @@ function App() {
 					></Route>
 					{/* bypass if you arent logged in */}
 					<Route path='/home2' element={<Main />}></Route>
-					<Route path='/about2' element={<About />}></Route>
+					<Route path='/' element={<About />}></Route>
 				</Routes>
 			</UserAuthContextProvider>
 		</>

@@ -107,8 +107,6 @@ const AnimeCard = ({ anime, likedAnime }) => {
 					<button onClick={(e) => handleClick(e)}>Remove from List</button>
 				)
 			) : null}
-			{/* <Button anime={anime}> Add to List</Button> */}
-			{user ? user.email : 'user it not here'}
 		</article>
 	);
 };

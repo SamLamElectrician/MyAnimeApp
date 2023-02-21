@@ -12,10 +12,10 @@ const Header = () => {
 			</div>
 			<ul className='rightNav'>
 				<li>
-					<Link to='/home'>Home</Link>
+					{user ? <Link to='/home'>Home</Link> : <Link to='/home2'>Home</Link>}
 				</li>
 				<li>
-					<Link to='/about'>About</Link>
+					<Link to='/'>About</Link>
 				</li>
 				<li>{user ? <Link to='/history'>Your List</Link> : null}</li>
 				<li>
@@ -24,7 +24,7 @@ const Header = () => {
 							Log out
 						</Link>
 					) : (
-						<Link to='/'>Login</Link>
+						<Link to='/login'>Login</Link>
 					)}
 				</li>
 			</ul>

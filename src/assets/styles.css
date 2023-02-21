@@ -402,7 +402,6 @@ button:hover {
 .content main .searchContainer {
   display: flex;
   justify-content: center;
-  position: -webkit-sticky;
   position: sticky;
   top: 20px;
   z-index: 500;
@@ -473,7 +472,9 @@ button:hover {
   transform: scale(1.05);
 }
 .content main .animeList .animeCard button {
-  margin: 10% 37% 0% 37%;
+  margin: 10% 37%;
+  padding: 7px;
+  border-radius: 8%;
 }
 
 .popUp {
@@ -482,7 +483,7 @@ button:hover {
 .popUp .popUpInner {
   background-color: #a2d2ff;
   line-height: 1.2rem;
-  min-width: 350pxx;
+  min-width: 350px;
   height: 30%;
   padding: 30px 40px;
   position: fixed;
@@ -519,7 +520,6 @@ button:hover {
     margin: 0 3% 2px 3%;
   }
   .content main .searchContainer {
-    position: -webkit-sticky;
     position: sticky;
     top: 20px;
   }
@@ -547,7 +547,6 @@ button:hover {
     margin: 0 2%;
   }
   .content main .searchContainer {
-    position: -webkit-sticky;
     position: sticky;
     top: 20px;
   }
@@ -578,7 +577,6 @@ button:hover {
     margin: 0 2%;
   }
   .content main .searchContainer {
-    position: -webkit-sticky;
     position: sticky;
     top: 20px;
   }
@@ -606,7 +604,6 @@ button:hover {
     margin: 0 3%;
   }
   .content main .searchContainer {
-    position: -webkit-sticky;
     position: sticky;
     top: 20px;
   }
